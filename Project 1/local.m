@@ -11,10 +11,10 @@ p=100;
 
 xg = 0:1:10;
 yg = 0:1:10;
-%xs = linspace(1, 9, 5);
-%ys = linspace(1, 9, 5);
 
+uniform=1; %%1->usiamo i sensori disgtribuiti in maniera uniforme, 0-> usiamo la grid topology
 %% sensors uniformly distribuited 
+if uniform==1
 n=25;
 x=l_room*rand(n, 1);
 y=l_room*rand(n, 1);
@@ -22,27 +22,17 @@ figure(1)
 make_grid(xg,yg,x,y);
 hold on
 
-Q=eye(n);
-eps=0.1;
 r=4;
+Q=make_Q_rand(n,r,x,y);
+else
+%% sensors grid topology ...
 
-for i=1:n
-    for j=n:-1:i
-        if norm([x(i), y(i)]- [x(j), y(j)])<=r && i~=j
-            Q(i ,j)=eps;
-            Q(i, i)=Q(i, i)-eps;
-            Q(j, i)=eps;
-            Q(j, j)=Q(j, j)-eps;
-        end
-    end
 end
-
+%% check connettivity
 G=graph(Q);
 figure(2)
 plot(G)
-eigenvalue=abs(eig(Q));
-
-%% sensors grid topology ...
+eigenvalue=sort(abs(eig(Q)))
 
 %% build A
 
@@ -58,7 +48,7 @@ for k=1:p
     pl=plot(x_broad, y_broad,'.g');
     
     for i=1:n
-        d=norm([x_broad, y_broad]- [x(j), y(j)]);
+        d=norm([x_broad, y_broad]-[x(i), y(i)]);
         if d<=8
             Rss=Pt-40.2-20*log10(d)+dev_stand*randn();
         else
