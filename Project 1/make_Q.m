@@ -57,7 +57,7 @@ function Q = make_Q_rand(n,r)
     max=0;
     for i=1:n
         din=0;
-        for j=n:-1:i
+        for j=1:n
             if norm([x(i), y(i)]-[x(j), y(j)])<=r && i~=j
                 din=din+1;
             end
