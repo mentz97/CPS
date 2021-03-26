@@ -10,7 +10,7 @@ function Q = make_Q_rand(n,r,x,y)
     end
 
     Q1=eye(n); %%uniform metod
-    ep=1/max(din);
+    ep=1/(max(din)+1); %%deve essere minore del massimo
 
     for i=1:n
         for j=n:-1:i

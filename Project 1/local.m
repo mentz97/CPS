@@ -41,16 +41,16 @@ eigenvalue=sort(abs(eig(Q)))
 Pt=25;
 dev_stand=0.5;
 var=0.5^2;
+x_ref=zeros(100,1);
+y_ref=zeros(100,1);
 
 for k=1:p
     k_n=k-1; % matlab fa partire i cicli da 1 mannaggia a lui
-    x_broad=fix(k_n/10)+l_p/2;
-    y_broad=mod(k_n, 10)+l_p/2;
-    figure(1)
-    pl=plot(x_broad, y_broad,'.g');
+    x_ref(k)=fix(k_n/10)+l_p/2;
+    y_ref(k)=mod(k_n, 10)+l_p/2;
     
     for i=1:n
-        d=norm([x_broad, y_broad]-[x(i), y(i)]);
+        d=norm([x_ref(k), y_ref(k)]-[x(i), y(i)]);
         if d<=8
             Rss=Pt-40.2-20*log10(d)+dev_stand*randn();
         else
@@ -59,6 +59,9 @@ for k=1:p
         A(i, k)=Rss;
     end
     
-    pause()
-    delete(pl);
 end
+
+figure(1)
+plot(x_ref, y_ref,'.g');
+
+%% Runtime Phase
