@@ -15,15 +15,15 @@ uniform=1; %%1->usiamo i sensori distribuiti in maniera uniforme, 0-> usiamo la 
 
 %% sensors uniformly distribuited 
 if uniform==1
-n=25;
-x=l_room*rand(n, 1);
-y=l_room*rand(n, 1);
+n=25; %%number of sensors
+x_sens=l_room*rand(n, 1);
+y_sens=l_room*rand(n, 1);
 figure(1)
-make_grid(xg,yg,x,y);
+make_grid(xg,yg,x_sens,y_sens);
 hold on
 
 r=4;
-Q=make_Q_rand(n,r,x,y);
+Q=make_Q_rand(n,r,x_sens,y_sens);
 end
 
 %% sensors grid topology ...
@@ -50,7 +50,7 @@ for k=1:p
     y_ref(k)=mod(k_n, 10)+l_p/2;
     
     for i=1:n
-        d=norm([x_ref(k), y_ref(k)]-[x(i), y(i)]);
+        d=norm([x_ref(k), y_ref(k)]-[x_sens(i), y_sens(i)]);
         if d<=8
             Rss=Pt-40.2-20*log10(d)+dev_stand*randn();
         else
@@ -66,7 +66,7 @@ plot(x_ref, y_ref,'.g');
 
 %% Runtime Phase
 figure()
-make_grid(xg, yg, x, y);
+make_grid(xg, yg, x_sens, y_sens);
 hold on
 
 ni=50; %%number of iterations
@@ -74,7 +74,19 @@ ni=50; %%number of iterations
 for i=1:ni
     x_measured=x_ref(ceil(p*rand()));
     y_measured=x_ref(ceil(p*rand()));
-    p1=plot(x_measured, y_measured, 'sb', 'MarkerSize', 10)
+    p1=plot(x_measured, y_measured, 'sb', 'MarkerSize', 10);
+    y=zeros(n, 1);
+    for j=1:n
+        d=norm([x_measured, y_measured]-[x_sens(j), y_sens(j)]);
+        if d<=8
+            y(j)=Pt-40.2-20*log10(d)+dev_stand*randn();
+        else
+            y(j)=Pt-58.5-33*log10(d)+dev_stand*randn();
+        end
+    end
+    u_A=mutual_coherence(A);
+    [Om, Yp]=reduce_coherence(A, y);
+    u_Om=mutual_coherence(Om);
     %to_do -> implement IST
     pause()
     delete(p1)
