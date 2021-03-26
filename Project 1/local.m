@@ -13,6 +13,7 @@ xg = 0:1:10;
 yg = 0:1:10;
 
 uniform=1; %%1->usiamo i sensori disgtribuiti in maniera uniforme, 0-> usiamo la grid topology
+
 %% sensors uniformly distribuited 
 if uniform==1
 n=25;
@@ -24,10 +25,13 @@ hold on
 
 r=4;
 Q=make_Q_rand(n,r,x,y);
-else
-%% sensors grid topology ...
-
 end
+
+%% sensors grid topology ...
+if uniform==0
+%%...
+end
+
 %% check connettivity
 G=graph(Q);
 figure(2)
