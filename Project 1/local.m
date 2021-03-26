@@ -11,7 +11,7 @@ p=100;
 xg = 0:1:10;
 yg = 0:1:10;
 
-uniform=1; %%1->usiamo i sensori disgtribuiti in maniera uniforme, 0-> usiamo la grid topology
+uniform=1; %%1->usiamo i sensori distribuiti in maniera uniforme, 0-> usiamo la grid topology
 
 %% sensors uniformly distribuited 
 if uniform==1
