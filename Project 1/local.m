@@ -4,7 +4,6 @@ close all
 clc
 
 %% map
-
 l_room=10; 
 l_p=1;
 p=100;
@@ -39,7 +38,6 @@ plot(G)
 eigenvalue=sort(abs(eig(Q)))
 
 %% build A
-
 Pt=25;
 dev_stand=0.5;
 var=0.5^2;
