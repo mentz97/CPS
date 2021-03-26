@@ -72,8 +72,8 @@ hold on
 ni=50; %%number of iterations
 
 for i=1:ni
-    x_measured=x_ref(round(p*rand()));
-    y_measured=x_ref(round(p*rand()));
+    x_measured=x_ref(ceil(p*rand()));
+    y_measured=x_ref(ceil(p*rand()));
     p1=plot(x_measured, y_measured, 'sb', 'MarkerSize', 10)
     %to_do -> implement IST
     pause()
